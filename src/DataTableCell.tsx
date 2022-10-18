@@ -17,14 +17,10 @@ export interface DataTableCellProps extends TableCellProps {
 /**
  * This component is used to display data in the the {@see TableRow} component.
  */
-export class DataTableCell extends React.PureComponent<DataTableCellProps> {
-    render() {
-        return (
-            <TableCell
-                {...this.props}
-            >
-                {this.props.getContent(this.props.data)}
-            </TableCell>
-        )
-    }
+export const DataTableCell: React.FC<DataTableCellProps> = (props) => {
+    return (
+        <TableCell {...props}>
+            {props.getContent(props.data)}
+        </TableCell>
+    )
 }

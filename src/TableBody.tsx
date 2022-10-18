@@ -19,27 +19,27 @@ export interface TableBodyProps extends TableRowProps, Pick<ZebraProps, "zebra">
 /**
  * This component displays the data as {@see TableRow}s.
  */
-export class TableBody extends React.PureComponent<TableBodyProps> {
-    render() {
-        const rowCells: React.ReactNode[] = React.Children.toArray(this.props.children);
-        const {includeLeftBorder, includeBottomBorder, includeRightBorder} = getDefaultBorderIncludes(this.props);
-        const dataRows = this.props.data ?? [];
+export const TableBody: React.FC<TableBodyProps> = (props) => {
+    const rowCells = React.Children.toArray(props.children);
+    const {includeLeftBorder, includeBottomBorder, includeRightBorder} = getDefaultBorderIncludes(props);
+    const dataRows = props.data ?? [];
 
-        return (
-            (dataRows).map((data, rowIndex) => (
+    return (
+        <>
+            {(dataRows).map((data, rowIndex) => (
                 <TableRow
-                    {...this.props}
+                    {...props}
                     key={rowIndex}
                     even={rowIndex % 2 === 0}
                     data={data}
                     includeLeftBorder={includeLeftBorder}
                     includeBottomBorder={includeBottomBorder}
                     includeRightBorder={includeRightBorder}
-                    includeTopBorder={this.props.renderTopBorder ?? false}
+                    includeTopBorder={props.renderTopBorder ?? false}
                 >
                     {rowCells}
                 </TableRow>
-            ))
-        );
-    }
+            ))}
+        </>
+    );
 }

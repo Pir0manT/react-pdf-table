@@ -34,42 +34,32 @@ export interface TableProps extends ZebraProps {
      * Otherwise assumed to be false.
      */
     isNested?: boolean;
+
+    children?: React.ReactNode;
 }
 
-export class Table extends React.PureComponent<TableProps> {
-    render() {
-        let tableHeader: React.ReactElement = null;
-        let tableBody: React.ReactElement = null;
+export const Table: React.FC<TableProps> = (props) => {
 
-        React.Children.forEach(this.props.children, (c: React.ReactElement) => {
-            if (c?.type === TableHeader) {
-                tableHeader = c;
-            } else if (c?.type === TableBody) {
-                tableBody = c;
-            }
-        });
+    const children = React.Children.toArray(props.children);
+    const tableHeader = children.find((e: React.ReactElement) => e.type === TableHeader) as React.ReactElement;
+    const tableBody = children.find((e: React.ReactElement) => e.type === TableBody) as React.ReactElement;
 
-        if(tableBody === null) {
-            tableBody = React.createElement(TableBody);
-        }
+    const fallbackTableBody = React.cloneElement(tableBody, {
+        data: tableBody?.props?.data ?? props.data ?? [],
+        renderTopBorder: props.isNested ? false : !tableHeader,
+        zebra: tableBody?.props?.zebra ?? props.zebra ?? false,
+        evenRowColor: tableBody?.props?.evenRowColor ?? props.evenRowColor ?? '',
+        oddRowColor: tableBody?.props?.oddRowColor ?? props.oddRowColor ?? '',
+    });
 
-        tableBody = React.cloneElement(tableBody, {
-            data: tableBody?.props?.data ?? this.props.data ?? [],
-            renderTopBorder: this.props.isNested ? false : !tableHeader,
-            zebra: tableBody?.props?.zebra ?? this.props.zebra ?? false,
-            evenRowColor: tableBody?.props?.evenRowColor ?? this.props.evenRowColor ?? '',
-            oddRowColor: tableBody?.props?.oddRowColor ?? this.props.oddRowColor ?? '',
-        });
-
-        return (
-            <View
-                style={{
-                    width: "100%",
-                }}
-            >
-                {tableHeader}
-                {tableBody}
-            </View>
-        );
-    }
+    return (
+        <View
+            style={{
+                width: "100%",
+            }}
+        >
+            {tableHeader}
+            {fallbackTableBody}
+        </View>
+    );
 }

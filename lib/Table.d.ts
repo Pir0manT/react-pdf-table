@@ -7,7 +7,6 @@ export interface ZebraProps {
 export interface TableProps extends ZebraProps {
     data?: any[];
     isNested?: boolean;
+    children?: React.ReactNode;
 }
-export declare class Table extends React.PureComponent<TableProps> {
-    render(): JSX.Element;
-}
+export declare const Table: React.FC<TableProps>;

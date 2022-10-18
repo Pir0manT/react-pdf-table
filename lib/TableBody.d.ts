@@ -5,6 +5,4 @@ export interface TableBodyProps extends TableRowProps, Pick<ZebraProps, "zebra">
     data?: any[];
     renderTopBorder?: boolean;
 }
-export declare class TableBody extends React.PureComponent<TableBodyProps> {
-    render(): JSX.Element[];
-}
+export declare const TableBody: React.FC<TableBodyProps>;

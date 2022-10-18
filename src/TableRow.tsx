@@ -40,55 +40,58 @@ export interface TableRowProps extends TableBorder {
      * Specify the color of odd rows
      */
     oddRowColor?: string;
+
+    /**
+     * fix 'Property children does not exists on type ... ts(2339)'
+     */
+    children: React.ReactNode;
 }
 
 /**
  * This component describes how to display a row.
  */
-export class TableRow extends React.PureComponent<Partial<TableBodyProps>> {
-    render() {
-        const rowCells: any[] = React.Children.toArray(this.props.children);
-        const {includeLeftBorder, includeBottomBorder, includeRightBorder, includeTopBorder} = getDefaultBorderIncludes(this.props);
+export const TableRow: React.FC<Partial<TableBodyProps>> = (props) => {
+  const rowCells: any[] = React.Children.toArray(props.children);
+  const {includeLeftBorder, includeBottomBorder, includeRightBorder, includeTopBorder} = getDefaultBorderIncludes(props);
 
-        let remainingWeighting = 1;
-        let numberOfWeightingsDefined = 0;
-        rowCells.forEach((i: TableCell | DataTableCell) => {
-            if (i.props.weighting !== undefined) {
-                remainingWeighting -= i.props.weighting;
-                numberOfWeightingsDefined++;
-            }
-        });
-
-        const weightingsPerNotSpecified = Math.ceil(remainingWeighting / (rowCells.length - numberOfWeightingsDefined));
-
-        const rowColor = ((this.props.zebra || this.props.evenRowColor) && this.props.even) ? this.props.evenRowColor || 'lightgray' : this.props.oddRowColor || '';
-
-        return (
-            <View
-                style={{
-                    borderBottom: includeBottomBorder === true ? "1pt solid black" : 0,
-                    borderRight: includeRightBorder === true ? "1pt solid black" : 0,
-                    borderLeft: includeLeftBorder === true ? "1pt solid black" : 0,
-                    borderTop: includeTopBorder === true ? "1pt solid black" : 0,
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    backgroundColor: rowColor,
-                }}
-            >
-                {
-                    rowCells.map((rc, columnIndex) => React.cloneElement(rc, {
-                        weighting: rc.props.weighting ?? weightingsPerNotSpecified,
-                        data: this.props.data,
-                        key: columnIndex,
-                        fontSize: this.props.fontSize,
-                        textAlign: this.props.textAlign,
-                        includeLeftBorder: columnIndex === 0,
-                        includeRightBorder: columnIndex !== (rowCells.length - 1)
-                    }))
-                }
-            </View>
-        );
+  let remainingWeighting = 1;
+  let numberOfWeightingsDefined = 0;
+  rowCells.forEach((i: ReturnType<typeof TableCell> | ReturnType<typeof DataTableCell>) => {
+    if (i.props.weighting !== undefined) {
+      remainingWeighting -= i.props.weighting;
+      numberOfWeightingsDefined++;
     }
+  });
+
+  const weightingsPerNotSpecified = Math.ceil(remainingWeighting / (rowCells.length - numberOfWeightingsDefined));
+
+  const rowColor = ((props.zebra || props.evenRowColor) && props.even) ? props.evenRowColor || 'lightgray' : props.oddRowColor || '';
+
+  return (
+      <View
+        style={{
+          borderBottom: includeBottomBorder === true ? "1pt solid black" : 0,
+          borderRight: includeRightBorder === true ? "1pt solid black" : 0,
+          borderLeft: includeLeftBorder === true ? "1pt solid black" : 0,
+          borderTop: includeTopBorder === true ? "1pt solid black" : 0,
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          backgroundColor: rowColor,
+        }}
+      >
+          {
+            rowCells.map((rc, columnIndex) => React.cloneElement(rc, {
+              weighting: rc.props.weighting ?? weightingsPerNotSpecified,
+              data: props.data,
+              key: columnIndex,
+              fontSize: props.fontSize,
+              textAlign: props.textAlign,
+              includeLeftBorder: columnIndex === 0,
+              includeRightBorder: columnIndex !== (rowCells.length - 1)
+            }))
+          }
+      </View>
+  );
 }

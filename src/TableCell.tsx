@@ -54,51 +54,44 @@ export interface TableCellProps extends TableBorder {
      * The font-size to apply to the cell.
      */
     fontSize?: number | string;
+
+    children?: React.ReactNode;
 }
 
 /**
  * This component displays the associated content of it's children.
  */
-export class TableCell extends React.PureComponent<TableCellProps> {
-    render() {
-        let content: any;
+export const TableCell: React.FC<TableCellProps> = (props) => {
+    const content = typeof props.children === "string"
+        ?  <Text>{props.children}</Text>
+        : typeof props.children === "number"
+        ?  <Text>{props.children.toString()}</Text>
+        : props.children;
 
-        if (typeof this.props.children === "string") {
-            content = (
-                <Text>{this.props.children}</Text>
-            );
-        } else if(typeof this.props.children === "number") {
-            content = (
-                <Text>{this.props.children.toString()}</Text>
-            );
-        } else {
-            content = this.props.children;
-        }
+    const {includeRightBorder} = getDefaultBorderIncludes(props);
 
-        const {includeRightBorder} = getDefaultBorderIncludes(this.props);
-        const defaultStyle: ReactPDF.Style = {
-            flex: this.props.weighting ?? 1,
-            // @ts-ignore
-            justifyContent: "stretch",
-            textAlign: this.props.textAlign ?? "left",
-            fontSize: this.props.fontSize ?? (this.props.isHeader === true ? 14 : 12),
-            borderRight: includeRightBorder === true ? "1pt solid black" : 0,
-            wordWrap: "break-word",
-            whiteSpace: "pre-wrap"
-        };
+    const defaultStyle: ReactPDF.Style = {
+        flex: props.weighting ?? 1,
+        // @ts-ignore
+        justifyContent: "stretch",
+        textAlign: props.textAlign ?? "left",
+        fontSize: props.fontSize ?? (props.isHeader === true ? 14 : 12),
+        borderRight: includeRightBorder === true ? "1pt solid black" : 0,
+        wordWrap: "break-word",
+        whiteSpace: "pre-wrap"
+    };
 
-        const mergedStyles: ReactPDF.Style[] = [
-            defaultStyle,
-            ...transformToArray(this.props.style)
-        ];
+    const mergedStyles: ReactPDF.Style[] = [
+        defaultStyle,
+        ...transformToArray(props.style)
+    ];
 
-        return (
-            <View
-                style={mergedStyles}
-                wrap={true}
-            >
-                {content}
-            </View>
-        );
-    }
+    return (
+        <View
+            style={mergedStyles}
+            wrap={true}
+        >
+            {content}
+        </View>
+    );
 }
