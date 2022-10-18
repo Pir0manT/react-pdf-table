@@ -89,7 +89,7 @@ export const TableRow: React.FC<Partial<TableBodyProps>> = (props) => {
               fontSize: props.fontSize,
               textAlign: props.textAlign,
               includeLeftBorder: columnIndex === 0,
-              includeRightBorder: columnIndex !== (rowCells.length - 1)
+              includeRightBorder: includeRightBorder && columnIndex !== (rowCells.length - 1)
             }))
           }
       </View>
