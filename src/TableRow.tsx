@@ -83,13 +83,13 @@ export const TableRow: React.FC<Partial<TableBodyProps>> = (props) => {
       >
           {
             rowCells.map((rc, columnIndex) => React.cloneElement(rc, {
-              weighting: rc.props.weighting ?? weightingsPerNotSpecified,
+              weighting: rc.props.weighting || weightingsPerNotSpecified,
               data: props.data,
               key: columnIndex,
-              fontSize: props.fontSize,
-              textAlign: props.textAlign,
-              includeLeftBorder: columnIndex === 0,
-              includeRightBorder: includeRightBorder && columnIndex !== (rowCells.length - 1)
+              fontSize: rc.props.fontSize || props.fontSize,
+              textAlign: rc.props.textAlign || props.textAlign,
+              includeLeftBorder: !!rc.props.includeLeftBorder && columnIndex === 0,
+              includeRightBorder: !!rc.props.includeRightBorder && includeRightBorder && columnIndex !== (rowCells.length - 1)
             }))
           }
       </View>

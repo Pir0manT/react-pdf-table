@@ -26,10 +26,10 @@ export const TableHeader : React.FC<TableHeaderProps> = (props) => {
                 rowCells.map((rc, columnIndex) => React.cloneElement(rc, {
                     key: columnIndex,
                     isHeader: true,
-                    fontSize: props.fontSize,
-                    textAlign: props.textAlign,
-                    includeLeftBorder: columnIndex === 0,
-                    includeRightBorder: columnIndex !== (rowCells.length - 1)
+                    fontSize: rc.props.fontSize || props.fontSize,
+                    textAlign: rc.props.textAlign || props.textAlign,
+                    includeLeftBorder: !!rc.props.includeLeftBorder && includeLeftBorder && columnIndex === 0,
+                    includeRightBorder: !!rc.props.includeRightBorder && includeRightBorder && columnIndex !== (rowCells.length - 1)
                 }))
             }
         </TableRow>
