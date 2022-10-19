@@ -3,11 +3,11 @@ import * as React from "react";
 import {getDefaultBorderIncludes} from "./Utils";
 import {ZebraProps} from "./Table";
 
-export interface TableBodyProps extends TableRowProps, Pick<ZebraProps, "zebra"> {
+export interface TableBodyProps<T> extends Omit<TableRowProps<T>, 'data'>, Pick<ZebraProps, "zebra"> {
     /**
      * The data associated with the table.
      */
-    data?: any[];
+    data?: Array<T>;
 
     /**
      * Allows control of the very top border of the TableBody to be toggled on and off
@@ -19,7 +19,7 @@ export interface TableBodyProps extends TableRowProps, Pick<ZebraProps, "zebra">
 /**
  * This component displays the data as {@see TableRow}s.
  */
-export const TableBody: React.FC<TableBodyProps> = (props) => {
+export const TableBody = <T,>(props: TableBodyProps<T>) => {
     const rowCells = React.Children.toArray(props.children);
     const {includeLeftBorder, includeBottomBorder, includeRightBorder} = getDefaultBorderIncludes(props);
     const dataRows = props.data ?? [];

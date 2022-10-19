@@ -1,8 +1,8 @@
+/// <reference types="react" />
 import { TableRowProps } from "./TableRow";
-import * as React from "react";
 import { ZebraProps } from "./Table";
-export interface TableBodyProps extends TableRowProps, Pick<ZebraProps, "zebra"> {
-    data?: any[];
+export interface TableBodyProps<T> extends Omit<TableRowProps<T>, 'data'>, Pick<ZebraProps, "zebra"> {
+    data?: Array<T>;
     renderTopBorder?: boolean;
 }
-export declare const TableBody: React.FC<TableBodyProps>;
+export declare const TableBody: <T>(props: TableBodyProps<T>) => JSX.Element;

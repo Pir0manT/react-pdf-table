@@ -2,13 +2,13 @@ import * as React from "react";
 import {getDefaultBorderIncludes} from "./Utils";
 import {TableRow, TableRowProps} from "./TableRow";
 
-export interface TableHeaderProps extends TableRowProps {
+export interface TableHeaderProps extends TableRowProps<never> {
 }
 
 /**
  * This component displays the titles for the rows.
  */
-export const TableHeader : React.FC<TableHeaderProps> = (props) => {
+export const TableHeader = (props: TableHeaderProps) => {
     let {includeLeftBorder, includeBottomBorder, includeRightBorder, includeTopBorder} = getDefaultBorderIncludes(props);
 
     const rowCells: any[] = React.Children.toArray(props.children);

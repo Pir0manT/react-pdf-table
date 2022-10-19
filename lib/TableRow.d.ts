@@ -1,14 +1,13 @@
 import * as React from "react";
 import { TableBorder } from "./TableCell";
-import { TableBodyProps } from "./TableBody";
-export interface TableRowProps extends TableBorder {
+export interface TableRowProps<T> extends TableBorder {
     fontSize?: number | string;
     textAlign?: "left" | "center" | "right";
-    data?: any;
+    data?: T;
     zebra?: boolean;
     even?: boolean;
     evenRowColor?: string;
     oddRowColor?: string;
     children: React.ReactNode;
 }
-export declare const TableRow: React.FC<Partial<TableBodyProps>>;
+export declare const TableRow: <T>(props: Partial<TableRowProps<T>>) => JSX.Element;

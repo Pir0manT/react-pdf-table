@@ -3,9 +3,8 @@ import {TableBorder, TableCell} from "./TableCell";
 import {DataTableCell} from "./DataTableCell";
 import {View} from "@react-pdf/renderer";
 import {getDefaultBorderIncludes} from "./Utils";
-import {TableBodyProps} from "./TableBody";
 
-export interface TableRowProps extends TableBorder {
+export interface TableRowProps<T> extends TableBorder {
     /**
      * The font size as a valid unit defined in react-pdf.
      */
@@ -19,7 +18,7 @@ export interface TableRowProps extends TableBorder {
     /**
      * Any data associated, relevant if the parent is a {@see DataTableCell}.
      */
-    data?: any;
+    data?: T;
 
     /**
      * Whether rows have alternating styles
@@ -50,7 +49,7 @@ export interface TableRowProps extends TableBorder {
 /**
  * This component describes how to display a row.
  */
-export const TableRow: React.FC<Partial<TableBodyProps>> = (props) => {
+export const TableRow = <T,>(props: Partial<TableRowProps<T>>) => {
   const rowCells: any[] = React.Children.toArray(props.children);
   const {includeLeftBorder, includeBottomBorder, includeRightBorder, includeTopBorder} = getDefaultBorderIncludes(props);
 
