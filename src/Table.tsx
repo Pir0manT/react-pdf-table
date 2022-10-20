@@ -2,7 +2,7 @@ import * as React from "react";
 import {TableHeader} from "./TableHeader";
 import {TableBody} from "./TableBody";
 import {View} from "@react-pdf/renderer";
-import { TableCell } from "TableCell";
+import { TableCell } from "./TableCell";
 import { TableRow } from "./TableRow";
 import { DataTableCell } from "./DataTableCell";
 
@@ -42,21 +42,25 @@ export interface TableProps<T> extends ZebraProps {
         TableHeader: typeof TableHeader;
         TableBody: typeof TableBody<T>;
         TableRow: typeof TableRow<T>;
+        TableCell: typeof TableCell;
         DataTableCell: typeof DataTableCell<T>;
-    }) => React.ReactNode);
+    }) => React.ReactFragment);
 }
 
 export const Table = <T,> (props: TableProps<T>) => {
 
-    const tmp = props.children;
-    const tmp2 = typeof tmp === 'function' ? tmp({
-        TableHeader,
-        TableBody,
-        TableRow,
-        DataTableCell,
-    }) : tmp;
+    const fragmentOrChildren = props.children;
+    const tmp = typeof fragmentOrChildren === 'function'
+        ? (fragmentOrChildren({
+                TableHeader,
+                TableBody,
+                TableRow,
+                TableCell,
+                DataTableCell,
+            }) as any).props.children as React.ReactNode[]
+        : fragmentOrChildren;
 
-    const children = React.Children.toArray(tmp2);
+    const children = React.Children.toArray(tmp);
     const tableHeader = children.find((e: React.ReactElement) => e.type === TableHeader) as React.ReactElement;
     const tableBody = children.find((e: React.ReactElement) => e.type === TableBody) as React.ReactElement;
 

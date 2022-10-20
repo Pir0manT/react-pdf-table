@@ -1,6 +1,7 @@
 import * as React from "react";
 import { TableHeader } from "./TableHeader";
 import { TableBody } from "./TableBody";
+import { TableCell } from "./TableCell";
 import { TableRow } from "./TableRow";
 import { DataTableCell } from "./DataTableCell";
 export interface ZebraProps {
@@ -15,7 +16,8 @@ export interface TableProps<T> extends ZebraProps {
         TableHeader: typeof TableHeader;
         TableBody: typeof TableBody<T>;
         TableRow: typeof TableRow<T>;
+        TableCell: typeof TableCell;
         DataTableCell: typeof DataTableCell<T>;
-    }) => React.ReactNode);
+    }) => React.ReactFragment);
 }
 export declare const Table: <T>(props: TableProps<T>) => JSX.Element;
