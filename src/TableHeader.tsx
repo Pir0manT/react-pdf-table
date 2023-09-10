@@ -28,8 +28,8 @@ export const TableHeader = (props: TableHeaderProps) => {
                     isHeader: true,
                     fontSize: rc.props.fontSize || props.fontSize,
                     textAlign: rc.props.textAlign || props.textAlign,
-                    includeLeftBorder: (rc.props.includeLeftBorder || true) && includeLeftBorder && columnIndex === 0,
-                    includeRightBorder: (rc.props.includeRightBorder || true) && includeRightBorder && columnIndex !== (rowCells.length - 1)
+                    includeLeftBorder: !!rc.props.includeLeftBorder && includeLeftBorder && columnIndex === 0,
+                    includeRightBorder: !!rc.props.includeRightBorder && includeRightBorder && columnIndex !== (rowCells.length - 1)
                 }))
             }
         </TableRow>

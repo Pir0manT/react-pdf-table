@@ -58,6 +58,5 @@
     "url": "https://github.com/dmk99/react-pdf-table/issues"
   },
   "homepage": "https://github.com/dmk99/react-pdf-table.git#README",
-  "types": "./lib/index.d.ts",
-  "dependencies": {}
+  "types": "./lib/index.d.ts"
 }

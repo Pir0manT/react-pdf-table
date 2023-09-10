@@ -70,9 +70,6 @@ export const TableCell: React.FC<TableCellProps> = (props) => {
 
     const {includeRightBorder} = getDefaultBorderIncludes(props);
 
-    console.log('props: ', props)
-    console.log('right border: ', includeRightBorder)
-
     const defaultStyle: ReactPDF.Style = {
         flex: props.weighting ?? 1,
         // @ts-ignore
