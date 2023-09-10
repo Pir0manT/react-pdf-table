@@ -87,8 +87,10 @@ export const TableRow = <T,>(props: Partial<TableRowProps<T>>) => {
               key: columnIndex,
               fontSize: rc.props.fontSize || props.fontSize,
               textAlign: rc.props.textAlign || props.textAlign,
-              includeLeftBorder: (rc.props.includeLeftBorder || true) && columnIndex === 0,
-              includeRightBorder: (rc.props.includeRightBorder || true) && includeRightBorder && columnIndex !== (rowCells.length - 1)
+              includeLeftBorder: columnIndex === 0,
+              includeRightBorder: columnIndex !== (rowCells.length - 1),
+      // includeLeftBorder: (rc.props.includeLeftBorder || true) && columnIndex === 0,
+      //         includeRightBorder: (rc.props.includeRightBorder || true) && includeRightBorder && columnIndex !== (rowCells.length - 1)
             }))
           }
       </View>
